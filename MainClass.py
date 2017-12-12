@@ -1,27 +1,40 @@
 import tkinter
 import configparser
 import Zwitter
+
 conf = configparser.RawConfigParser()
 conf.read("config.cfg")
-
+life = False  # global
 root = tkinter.Tk()
 zwitter = Zwitter.Zwitter()
 
-root.title('Zwitter field')
-
-WIDTH = conf.get("window","width")
+WIDTH = conf.get("window", "width")
 HEIGHT = conf.get("window", "height")
-#BODY_SIZE = conf.get("zwitterbody", "size")
+canvas = tkinter.Canvas(root, width=WIDTH, height=HEIGHT, bg="#003300")
 x = 20
 y = 50
-canvas = tkinter.Canvas(root,width=WIDTH, height=HEIGHT, bg="#003300")
-
-BODY_SIZE = zwitter.body
+root.title('Zwitter field')
 canvas.grid()
 canvas.focus_set()
 
-canvas.create_rectangle(x,y,x+BODY_SIZE,y+BODY_SIZE,fill="white")
 
-print(WIDTH,HEIGHT)
 
-root.mainloop()
+
+def lifecycle(life):
+        zwitter.breath(life)
+        BODY_SIZE = zwitter.body
+        BODY_COLOR = zwitter.color
+        canvas.create_rectangle(x, y, x + BODY_SIZE, y + BODY_SIZE, fill=BODY_COLOR)
+
+
+def _start():
+    print('ok')
+    lifecycle(life)
+    root.mainloop()
+
+
+
+if __name__ == '__main__':
+    _start()
+
+
